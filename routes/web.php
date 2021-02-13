@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MainController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [MainController::class, 'index'])->name('index');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::group(['middleware' => ['auth'], 'prefix' => 'dashboard'], function () {
+    Route::get('/', [AdminController::class, 'index'])->name('dashboard');
+    Route::get('/create_note', [AdminController::class, 'create_note'])->name('create_note');
+    Route::post('/save_note', [AdminController::class, 'save_note'])->name('save_note');
+
+});
