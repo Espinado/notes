@@ -8,6 +8,8 @@
     <form action="{{ route('save_note') }}" method="POST" class="contact_form"
                             novalidate="novalidate" data-status="init">
  @csrf
+ Title
+ <input type="text" name="title" placeholder="Title">
  <label for="note">Note</label>
  <input type="text" class="form-control" name="note">
  <input type="hidden" name="hidden" value="0">

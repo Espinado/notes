@@ -10,6 +10,7 @@ class MainController extends Controller
 {
     public function index() {
 
+        $allPublicNotes=Note::where('private',false)->get();
         return view('welcome');
     }
 }

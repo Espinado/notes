@@ -21,5 +21,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'dashboard'], function () {
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
     Route::get('/create_note', [AdminController::class, 'create_note'])->name('create_note');
     Route::post('/save_note', [AdminController::class, 'save_note'])->name('save_note');
-
+    Route::get('/edit_note/{uuid}', [AdminController::class, 'edit_note'])->name('edit_note');
+    Route::post('/update_note', [AdminController::class, 'update_note'])->name('update_note');
+    Route::post('/share_note', [AdminController::class, 'share_note'])->name('share_note');
 });

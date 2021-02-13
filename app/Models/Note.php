@@ -12,8 +12,10 @@ class Note extends Model
 
     protected $fillable = [
         'author_id',
+        'title',
         'note',
-        'private'
+        'private',
+        'uuid'
     ];
 
     public function user()
