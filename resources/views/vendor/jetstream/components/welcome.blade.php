@@ -9,28 +9,38 @@
 
     @foreach ($myNotes as $note)
 
-        <div class="mt-6 text-gray-500">
-            Title:
-            {{ $note->title }} <br>
-            Note:
-            {{ $note->note }}
-        </div>
-        Created: {{ $note->created_at }} <br>
-        Author:{{ $note->user->name }}<br>
-        <a href="{{ route('edit_note', $note->uuid) }}" class="btn btn-info btn-xs" role="button">Edit</a>
-        <br>
-        Share with:
-
+        @if ($note->author_id == Auth::user()->id)
+            <div class="mt-6 text-gray-500">
+                Title:
+                {{ $note->title }} <br>
+                Note:
+                {{ $note->note }}
+            </div>
+            Created: {{ $note->created_at }} <br>
+            @foreach ($note->users as $user)
+                @if ($user->id == Auth::user()->id)
+                    Author:{{ $user->name }}<br>
+                @endif
+            @endforeach
+            <a href="{{ route('edit_note', $note->uuid) }}" class="btn btn-info btn-xs" role="button">Edit</a>
+            <br>
+            Share with:
+            <form method="post" action="{{ route('share_note') }}">
+                @csrf
+                <input type="email" name="sharing">
+                <input type="hidden" name="uuid" value="{{ $note->uuid }}">
+                <input type=submit value="Share">
+            </form>
+            Shared with:
+            @foreach ($note->users as $user)
+            @if ($user->id != Auth::user()->id)
+            {{ $user->name }} ({{ $user->email}})<br>
+            @endif
+            @endforeach
+             @endif
     @endforeach
+
 </div>
-<form action="{{ route('share_note') }}" method="POST" class="contact_form"
-                            novalidate="novalidate" data-status="init">
- @csrf
- Title
- <input type="hidden" name="uuid" value="{{$note->uuid}}">
-<input type="text" name="email">
- <input type="submit" value="OK" class="form-submit btn btn-primary">
-</form>
 
 <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2">
     <div class="p-6">

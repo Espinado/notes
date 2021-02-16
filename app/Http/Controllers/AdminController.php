@@ -6,14 +6,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Note;
 use Illuminate\Support\Str;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
+
+
+
 
 class AdminController extends Controller
 {
     public function index()
     {
-
         $myNotes = Auth::user()->notes;
-
         return view('dashboard', ['myNotes' => $myNotes]);
     }
     public function create_note()
@@ -30,6 +33,8 @@ class AdminController extends Controller
         $note->private = $request->hidden;
         $note->uuid = Str::uuid();
         $note->save();
+        $user = $user = Auth::user()->id;
+        $note->users()->attach($user);
         return redirect('dashboard');
     }
 
@@ -41,7 +46,6 @@ class AdminController extends Controller
 
     public function update_note(request $request)
     {
-
         Note::where('uuid', $request->uuid)->update([
             'title' => $request->title,
             'note' => $request->note,
@@ -49,9 +53,32 @@ class AdminController extends Controller
         ]);
         return redirect('dashboard');
     }
+    public function share_note(request $request)
+    {
+        $user = User::where('email', $request->sharing)->first();
 
-    public function share_note(request $request) {
+        if ($user) {
+            $userId = $user->id;
+            $note = Note::where('uuid', $request->uuid)->first();
+            $exists = DB::table('note_user')
+    ->whereNoteId($note->id)
+    ->whereUserId($userId)
+    ->count() > 0;
+        if ($exists==false) {
+            $note->users()->attach($userId);
+            return back();
+        } else {
+            dd('exists');
+        }
 
-        dd($request->all);
+        } else {
+            dd('error');
+        }
+    }
+
+    public function sharedwithme()
+    {
+        $sharedNotes = Auth::user()->notes;
+        return view('sharedwithme', ['sharedNotes' => $sharedNotes]);
     }
 }

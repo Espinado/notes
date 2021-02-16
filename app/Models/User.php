@@ -61,6 +61,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function notes()
     {
-        return $this->hasMany(Note::class, 'author_id');
+        return $this->belongsToMany(Note::class);
     }
 }

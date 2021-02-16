@@ -16,6 +16,8 @@ use App\Http\Controllers\AdminController;
 */
 
 Route::get('/', [MainController::class, 'index'])->name('index');
+Route::get('/read_note/{uuid}', [MainController::class, 'read_note'])->name('read-note');
+
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'dashboard'], function () {
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
@@ -24,4 +26,5 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'dashboard'], function () {
     Route::get('/edit_note/{uuid}', [AdminController::class, 'edit_note'])->name('edit_note');
     Route::post('/update_note', [AdminController::class, 'update_note'])->name('update_note');
     Route::post('/share_note', [AdminController::class, 'share_note'])->name('share_note');
+    Route::get('/shared_with_me', [AdminController::class, 'sharedWithMe'])->name('shared_with_me');
 });

@@ -18,8 +18,10 @@ class Note extends Model
         'uuid'
     ];
 
-    public function user()
+
+
+    public function users()
     {
-        return $this->belongsTo(User::class,'author_id');
+        return $this->belongsToMany(User::class);
     }
 }

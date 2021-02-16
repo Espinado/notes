@@ -4,6 +4,7 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Dashboard') }}
             <a href="{{ route('create_note') }}" class="btn btn-danger">Create new note</a>
+            <a href="{{ route('shared_with_me') }}" class="btn btn-danger">Shared with me</a>
         </h2>
     </x-slot>
 
