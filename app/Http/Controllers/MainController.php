@@ -11,6 +11,7 @@ class MainController extends Controller
     public function index() {
 
         $allPublicNotes=Note::where('private',false)->get();
+
         return view('welcome', compact('allPublicNotes'));
     }
     public function read_note($uuid) {
