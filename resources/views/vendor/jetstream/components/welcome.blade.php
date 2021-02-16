@@ -17,11 +17,7 @@
                 {{ $note->note }}
             </div>
             Created: {{ $note->created_at }} <br>
-            @foreach ($note->users as $user)
-                @if ($user->id == Auth::user()->id)
-                    Author:{{ $user->name }}<br>
-                @endif
-            @endforeach
+            Author: {{ $note->author($note->author_id)->name }}
             <a href="{{ route('edit_note', $note->uuid) }}" class="btn btn-info btn-xs" role="button">Edit</a>
             <br>
             Share with:
@@ -33,11 +29,12 @@
             </form>
             Shared with:
             @foreach ($note->users as $user)
-            @if ($user->id != Auth::user()->id)
-            {{ $user->name }} ({{ $user->email}})<br>
-            @endif
+
+                @if ($user->id != Auth::user()->id)
+                    {{ $user->name }} ({{ $user->email }})<br>
+                @endif
             @endforeach
-             @endif
+        @endif
     @endforeach
 
 </div>

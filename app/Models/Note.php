@@ -24,4 +24,11 @@ class Note extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
+    public function author($author_id) {
+        $author=User::where('id', $author_id)->first();
+        return $author;
+    }
+
+
 }

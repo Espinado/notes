@@ -6,11 +6,7 @@
             <a href="{{ route('shared_with_me') }}" class="btn btn-danger">Shared with me</a>
         </h2>
     </x-slot>
-
-
-
                 @foreach ($sharedNotes as $note)
-
                 <div class="py-12">
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
@@ -22,13 +18,7 @@
                      {{ $note->note }}
                  </div>
                  Created: {{ $note->created_at }} <br>
-
-                 @foreach ($note->users as $user)
-                 @if ($user->id !== Auth::user()->id)
-                 Author:{{ $user->name }}<br>
-                 @endif
-                 @endforeach
-
+                 Author:{{ $note->author($note->author_id)->name }}<br>
                 @endif
             </div>
         </div>
