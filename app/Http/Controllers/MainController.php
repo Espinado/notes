@@ -12,12 +12,11 @@ class MainController extends Controller
     {
         if ($request->session()->get('filter')) {
             $query = $request->session()->get('filter');
-            $allPublicNotes=Note::where('title', 'like', '%'. $query.'%')
-            ->orWhere('note','like', '%'. $query.'%')
-            ->where('private', false)->get();
-
+            $allPublicNotes = Note::where('title', 'like', '%' . $query . '%')
+                ->orWhere('note', 'like', '%' . $query . '%')
+                ->where('private', false)->get();
         } else {
-        $allPublicNotes = Note::where('private', false)->get();
+            $allPublicNotes = Note::where('private', false)->get();
         }
 
         return view('welcome', compact('allPublicNotes'));

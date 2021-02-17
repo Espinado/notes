@@ -52,17 +52,21 @@ class AdminController extends Controller
 
     public function update_note(request $request)
     {
-        Note::where('uuid', $request->uuid)->update([
-            'title' => $request->title,
-            'note' => $request->note,
-            'private' => $request->hidden
-        ]);
+        try {
+            Note::where('uuid', $request->uuid)->update([
+                'title' => $request->title,
+                'note' => $request->note,
+                'private' => $request->hidden
+            ]);
+        } catch (\Exception $exception) {
+            return back()->with('error', 'Error');
+        }
+
         return redirect('dashboard');
     }
     public function share_note(request $request)
     {
         $user = User::where('email', $request->sharing)->first();
-
         if ($user) {
             $userId = $user->id;
             $note = Note::where('uuid', $request->uuid)->first();
@@ -74,10 +78,10 @@ class AdminController extends Controller
                 $note->users()->attach($userId);
                 return back();
             } else {
-                dd('exists');
+                return back()->with('error', 'Already shared to this user');
             }
         } else {
-            dd('error');
+            return back()->with('error', 'No users found with these credentials');
         }
     }
 

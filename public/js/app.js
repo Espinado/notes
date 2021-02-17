@@ -3826,6 +3826,10 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     forceTLS: true
 // });
 
+$(document).ready(function () {
+  console.log("ready!!!!");
+});
+
 /***/ }),
 
 /***/ "./node_modules/lodash/lodash.js":
