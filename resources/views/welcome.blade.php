@@ -401,6 +401,15 @@
 </head>
 
 <body class="antialiased">
+    <form method="post" action="{{ url('set_filter') }}">
+        @csrf
+        Search:<input type="text" placeholder="Search" name="filter">
+        <input type="submit" value="Set filter">
+    </form>
+    <form method="post" action="{{ url('clear_filter') }}">
+        @csrf
+        <input type="submit" value="Clear filter">
+    </form>
     <div
         class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
         @if (Route::has('login'))
@@ -416,9 +425,10 @@
                 @endauth
             </div>
         @endif
-        {{--  <form method="POST" action="{{ route('read_note') }}" enctype="multipart/form-data" class="box-typical">  --}}
-            @foreach ($allPublicNotes as $publicNote)
-            <a href="{{url('read_note', ['uuid' => $publicNote->uuid])}}">
+
+        {{-- <form method="POST" action="{{ route('read_note') }}" enctype="multipart/form-data" class="box-typical"> --}}
+        @foreach ($allPublicNotes as $publicNote)
+            <a href="{{ url('read_note', ['uuid' => $publicNote->uuid]) }}">
                 <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
                     <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
                         <div class="grid grid-cols-1 md:grid-cols-2">
@@ -433,7 +443,7 @@
                                     </svg>
                                     <div class="ml-4 text-lg leading-7 font-semibold text-gray-900 dark:text-white">
                                         {{ $publicNote->title }}</div>
-                                        <a href="{{url('read_note', ['uuid' => $publicNote->uuid])}}">
+                                    <a href="{{ url('read_note', ['uuid' => $publicNote->uuid]) }}">
                                 </div>
                             </div>
 
@@ -441,9 +451,9 @@
                     </div>
 
                 </div>
-                </a>
-            @endforeach
-        {{--  </form>  --}}
+            </a>
+        @endforeach
+        {{-- </form> --}}
     </div>
 </body>
 

@@ -17,6 +17,8 @@ use App\Http\Controllers\AdminController;
 
 Route::get('/', [MainController::class, 'index'])->name('index');
 Route::get('/read_note/{uuid}', [MainController::class, 'read_note'])->name('read-note');
+Route::post('/set_filter',[MainController::class, 'setFilters'])->name('set_filter');
+Route::post('/clear_filter',[MainController::class, 'clearFilters'])->name('clear_filter');
 
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'dashboard'], function () {

@@ -9,7 +9,7 @@
 
     @foreach ($myNotes as $note)
 
-        @if ($note->author_id == Auth::user()->id)
+        @if ($note->isAuthor($note->author_id))
             <div class="mt-6 text-gray-500">
                 Title:
                 {{ $note->title }} <br>
@@ -29,16 +29,13 @@
             </form>
             Shared with:
             @foreach ($note->users as $user)
-
                 @if ($user->id != Auth::user()->id)
                     {{ $user->name }} ({{ $user->email }})<br>
                 @endif
             @endforeach
         @endif
     @endforeach
-
 </div>
-
 <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2">
     <div class="p-6">
         <div class="flex items-center">

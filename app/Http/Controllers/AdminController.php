@@ -13,11 +13,17 @@ use Illuminate\Support\Facades\DB;
 
 
 class AdminController extends Controller
+
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         $myNotes = Auth::user()->notes;
-        return view('dashboard', ['myNotes' => $myNotes]);
+        return view('dashboard', compact('myNotes', $myNotes));
     }
     public function create_note()
     {
@@ -61,16 +67,15 @@ class AdminController extends Controller
             $userId = $user->id;
             $note = Note::where('uuid', $request->uuid)->first();
             $exists = DB::table('note_user')
-    ->whereNoteId($note->id)
-    ->whereUserId($userId)
-    ->count() > 0;
-        if ($exists==false) {
-            $note->users()->attach($userId);
-            return back();
-        } else {
-            dd('exists');
-        }
-
+                ->whereNoteId($note->id)
+                ->whereUserId($userId)
+                ->count() > 0;
+            if ($exists == false) {
+                $note->users()->attach($userId);
+                return back();
+            } else {
+                dd('exists');
+            }
         } else {
             dd('error');
         }
